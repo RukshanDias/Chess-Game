@@ -1,14 +1,12 @@
 import "./App.css";
-import { useState } from 'react';
-import {Chessboard} from 'react-chessboard'
-import {Chess} from 'chess.js'
+import ChessGame from "./components/ChessGame";
 
 function App() {
-  const [game, setGame] = useState(new Chess());
     return (
         <div className="App">
-          <Chessboard/>
+          {/* <Chessboard/> */}
             {/* <Chessboard position={game.fen()} onPieceDrop={onDrop} /> */}
+            <ChessGame/>
         </div>
     );
 }
