@@ -1,11 +1,15 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
 
 const ChessGame = () => {
+    // state
     const [game, setGame] = useState(new Chess());
+    console.log(game);
     const [currentTimeout, setCurrentTimeout] = useState(undefined);
+
+    // effects
 
     const safeGameMutate = (modify) => {
         setGame((g) => {
@@ -16,12 +20,7 @@ const ChessGame = () => {
     };
 
     function onDrop(sourceSquare, targetSquare) {
-        // const gameCopy = { ...game };
-        const gameCopy = new Chess(game.fen());
-        console.log(game);
-        console.log(gameCopy);
-        console.log(sourceSquare);
-        console.log(targetSquare);
+        const gameCopy = { ...game };
         const move = gameCopy.move({
             from: sourceSquare,
             to: targetSquare,
@@ -31,9 +30,14 @@ const ChessGame = () => {
         setGame(gameCopy);
 
         // illegal move
-        if (move === null) return false;
+        if (move === null) {
+            console.log("wrong move");
+            alert("illegal move..");
+            return false;
+        }
 
         // store timeout so it can be cleared on undo/reset so computer doesn't execute move
+        // makeRandomMove();
         const newTimeout = setTimeout(makeRandomMove, 200);
         setCurrentTimeout(newTimeout);
         return true;
@@ -41,11 +45,12 @@ const ChessGame = () => {
 
     function makeRandomMove() {
         const possibleMoves = game.moves();
-
+        console.log(possibleMoves);
         // exit if the game is over
-        if (game.isGameOver() || game.isDraw() || possibleMoves.length === 0) return;
+        if (game.game_over() || game.in_draw() || possibleMoves.length === 0) return;
 
         const randomIndex = Math.floor(Math.random() * possibleMoves.length);
+        console.log("random no:" + randomIndex);
         safeGameMutate((game) => {
             game.move(possibleMoves[randomIndex]);
         });
@@ -54,7 +59,7 @@ const ChessGame = () => {
     return (
         <div className="App">
             {/* <Chessboard/> */}
-            <Chessboard position={game.fen()} onPieceDrop={onDrop} />
+            <Chessboard position={game.fen()} onPieceDrop={onDrop}/>
         </div>
     );
 };
