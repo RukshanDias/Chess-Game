@@ -1,4 +1,5 @@
 *.xlsx
 *.csv
+.env
 
 /node_modules
