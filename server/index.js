@@ -4,7 +4,10 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 dotenv.config();
+const session = require("express-session");
+const userRoutes = require("./Routes/Player");
 
+// express app
 const app = express();
 
 app.use(bodyParser.json());
@@ -12,6 +15,26 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 const PORT = process.env.SERVER_PORT || 8000;
+
+// Add session middleware
+app.use(
+    session({
+        secret: "your-secret-key",
+        resave: false,
+        saveUninitialized: false,
+    })
+);
+
+// middleware
+app.use(express.json());
+
+app.use((req, res, next) => {
+    console.log(req.path, req.method);
+    next();
+});
+
+// routes
+app.use("/api/user", userRoutes); // routes should go after express-sessions
 
 mongoose
     .connect(process.env.DB_CONNECT, { useNewUrlParser: true })
@@ -22,4 +45,3 @@ mongoose
     .catch((err) => {
         console.error(err);
     });
-
