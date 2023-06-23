@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 dotenv.config();
 const session = require("express-session");
 const userRoutes = require("./Routes/Player");
+const AllUserDataRoutes = require("./Routes/AllUserData");
 
 // express app
 const app = express();
@@ -35,6 +36,7 @@ app.use((req, res, next) => {
 
 // routes
 app.use("/api/user", userRoutes); // routes should go after express-sessions
+app.use("/api/user", AllUserDataRoutes);
 
 mongoose
     .connect(process.env.DB_CONNECT, { useNewUrlParser: true })
