@@ -1,0 +1,48 @@
+.App {
+    text-align: center;
+  }
+  
+  .App-logo {
+    /* animation: App-logo-spin infinite 20s linear; */
+    height: 100px;
+  }
+  
+  .App-header, .App-footer, .main-header {
+    background-color: #3498db;
+    color: white;
+  }
+  
+  .App-header, .App-footer {
+    padding: 20px;  
+  }
+  
+  .App-title {
+    font-size: 1.5em;
+  }
+  
+  .main-header {
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    font-size: 20px;
+  }
+  
+  .App-footer {
+    margin-top: 20px;
+  }
+  
+  .overflow-table {
+    overflow-x:auto;
+  }
+  .btn {
+    background: #666ed8;
+    padding: 10px 35px;
+    border: none;
+    font-size: 22px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    /* transition: 0.3s ease all; */
+    box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
+  }
