@@ -49,10 +49,11 @@ function LoginRegister() {
         }
 
         axios
-            .post(process.env.REACT_APP_SERVER_URL+"/api/user/login", formData)
+            .post(process.env.REACT_APP_SERVER_URL + "/api/user/login", formData)
             .then((res) => {
                 console.log(res.data);
-                sessionStorage.setItem("username", JSON.stringify(res.data.userName)); // create session
+                sessionStorage.setItem("username", JSON.stringify(res.data.username)); // create session
+                console.log(sessionStorage);
                 navigate("/");
             })
             .catch((err) => {
@@ -73,7 +74,7 @@ function LoginRegister() {
         }
         console.log(formData);
         axios
-            .post(process.env.REACT_APP_SERVER_URL+"/api/user/register", formData)
+            .post(process.env.REACT_APP_SERVER_URL + "/api/user/register", formData)
             .then((res) => {
                 const data = res.data;
                 if (data.success) {
