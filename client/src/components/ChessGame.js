@@ -2,15 +2,43 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
+import axios from "axios";
 
 const ChessGame = () => {
     // state
     const [game, setGame] = useState(new Chess());
-    console.log(game);
     const [currentTimeout, setCurrentTimeout] = useState(undefined);
     const [optionSquare, setOptionSquares] = useState({});
+    const [isUserTurn, setIsUserTurn] = useState(true);
+    const [result, setResult] = useState(null);
+    const [username, setUsername] = useState(null);
 
     // effects
+    useEffect(() => {
+        if (result && username) {
+            // if points not null
+            axios
+                .post(process.env.REACT_APP_SERVER_URL + "/api/user/updateData", { username, result })
+                .then((res) => {
+                    console.log("result updated");
+                })
+                .catch((err) => {
+                    console.error(err);
+                    alert("error occured");
+                });
+        }
+    }, [result]);
+
+    // set username if logged in
+    useEffect(() => {
+        console.log(sessionStorage);
+        const storedUsername = sessionStorage.getItem("username");
+        if (storedUsername) {
+            setUsername(storedUsername);
+        }
+        console.log(username);
+    }, []);
+
 
     // Functions & Methods
 
@@ -29,7 +57,6 @@ const ChessGame = () => {
             to: targetSquare,
             promotion: "q", // always promote to a queen for example simplicity
         });
-        console.log(move);
         setGame(gameCopy);
 
         // illegal move
@@ -38,20 +65,32 @@ const ChessGame = () => {
             alert("illegal move..");
             return false;
         }
+        if (isGameOver()) return true;
+        // computers turn
+        setIsUserTurn(false);
 
         // store timeout so it can be cleared on undo/reset so computer doesn't execute move
         const newTimeout = setTimeout(makeRandomMove, 200);
         setCurrentTimeout(newTimeout);
+
         return true;
     }
 
     const isGameOver = () => {
-        console.log("checking game")
+        console.log("checking game");
         if (game.game_over()) {
             alert("game over");
+            if (isUserTurn) {
+                alert("you won");
+                setResult("won");
+            } else {
+                alert("you lose");
+                setResult("lost");
+            }
             return true;
         } else if (game.in_draw()) {
             alert("draw");
+            setResult("draw");
             return true;
         }
         return false;
@@ -59,16 +98,15 @@ const ChessGame = () => {
 
     function makeRandomMove() {
         const possibleMoves = game.moves();
-        console.log(possibleMoves);
-        // exit if the game is over
-        // if (game.game_over() || game.in_draw() || possibleMoves.length === 0) return;
-        if(isGameOver())return;
 
         const randomIndex = Math.floor(Math.random() * possibleMoves.length);
         console.log("random no:" + randomIndex);
         safeGameMutate((game) => {
             game.move(possibleMoves[randomIndex]);
         });
+
+        if (isGameOver()) return; // check game over
+        setIsUserTurn(true); //users turn
     }
 
     const onMouseOverSquare = (square) => {
@@ -102,7 +140,6 @@ const ChessGame = () => {
 
     return (
         <div className="App">
-            {/* <Chessboard/> */}
             <Chessboard
                 position={game.fen()}
                 onPieceDrop={onDrop}
