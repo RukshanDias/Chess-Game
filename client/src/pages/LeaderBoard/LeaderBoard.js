@@ -11,13 +11,13 @@ const LeaderBoard = () => {
     };
 
     return (
-        <div className="App">
-            <header className="App-header">
+        <div className="leaderBoard">
+            <header className="leaderBoard-header">
                 <button className="btn" onClick={playGame}>
                     Play
                 </button>
             </header>
-            <div className="container">
+            <div className="leaderBoard-container">
                 <div className="row">
                     <div className="col-lg-12">
                         <div className="main-header">Leaderboard</div>
@@ -31,7 +31,7 @@ const LeaderBoard = () => {
                     </div>
                 </div>
             </div>
-            {/* <footer className="App-footer">Chess Game</footer> */}
+            {/* <footer className="leaderBoard-footer">Chess Game</footer> */}
         </div>
     );
 };
