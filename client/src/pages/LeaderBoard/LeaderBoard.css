@@ -1,22 +1,22 @@
-.App {
+.leaderBoard {
     text-align: center;
   }
   
-  .App-logo {
-    /* animation: App-logo-spin infinite 20s linear; */
+  .leaderBoard-logo {
+    /* animation: leaderBoard-logo-spin infinite 20s linear; */
     height: 100px;
   }
   
-  .App-header, .App-footer, .main-header {
+  .leaderBoard-header, .leaderBoard-footer, .main-header {
     background-color: #3498db;
     color: white;
   }
   
-  .App-header, .App-footer {
+  .leaderBoard-header, .leaderBoard-footer {
     padding: 20px;  
   }
   
-  .App-title {
+  .leaderBoard-title {
     font-size: 1.5em;
   }
   
@@ -27,7 +27,7 @@
     font-size: 20px;
   }
   
-  .App-footer {
+  .leaderBoard-footer {
     margin-top: 20px;
   }
   
