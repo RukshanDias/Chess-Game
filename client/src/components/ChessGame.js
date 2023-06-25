@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
 import axios from "axios";
+import "./ChessGame.css";
+import Dashboard from "./Dashboard/Dashboard";
 
 const ChessGame = () => {
     // state
@@ -12,6 +14,7 @@ const ChessGame = () => {
     const [isUserTurn, setIsUserTurn] = useState(true);
     const [result, setResult] = useState(null);
     const [username, setUsername] = useState(null);
+    const [isGameStarted, setIsGameStarted] = useState(false);
 
     // effects
     useEffect(() => {
@@ -34,11 +37,10 @@ const ChessGame = () => {
         console.log(sessionStorage);
         const storedUsername = sessionStorage.getItem("username");
         if (storedUsername) {
-            setUsername(storedUsername);
+            setUsername(storedUsername.replace(/^['"]|['"]$/g, ""));
         }
         console.log(username);
     }, []);
-
 
     // Functions & Methods
 
@@ -139,14 +141,15 @@ const ChessGame = () => {
     };
 
     return (
-        <div className="App">
+        <div className="ChessGame">
             <Chessboard
-                position={game.fen()}
+                position={(username && isGameStarted) ? game.fen() : ""}
                 onPieceDrop={onDrop}
                 customSquareStyles={{ ...optionSquare }}
                 onMouseOverSquare={onMouseOverSquare}
                 onMouseOutSquare={() => setOptionSquares({})}
             />
+            <Dashboard username={username} isUserTurn={isUserTurn} game={game} isGameStarted={setIsGameStarted}/>
         </div>
     );
 };
