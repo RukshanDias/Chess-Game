@@ -28,6 +28,7 @@ const Table = () => {
                 <tr>
                     <th scope="col">#Rank</th>
                     <th scope="col">Username</th>
+                    <th scope="col">Matches</th>
                     <th scope="col">Won</th>
                     <th scope="col">Lost</th>
                     <th scope="col">Draw</th>
